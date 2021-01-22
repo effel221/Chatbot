@@ -28,7 +28,7 @@
     "jsdom": "16.4.0",
     "react": "17.0.1",
     "react-dom": "17.0.1",
-    "rx": "4.1.0",
+    "rxjs": "6.6.3",
     "styled-components": "5.2.1",
     "ts-jest": "26.4.4",
     "typescript-eslint": "0.0.1-alpha.0"

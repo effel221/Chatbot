@@ -8,6 +8,7 @@
     "allowJs": true,
     "allowSyntheticDefaultImports": true,
     "rootDir": "./src",
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "moduleResolution": "node"
   }
 }
