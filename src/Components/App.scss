@@ -28,6 +28,8 @@ header {
   display: flex;
   left: 0;
   top: 0;
+  right: 0;
+  z-index: 9;
 
   .logo {
     display: inline-block;
@@ -35,13 +37,51 @@ header {
     font-size: 54px;
     margin: 10px 0 0 20px;
     text-decoration: none;
-    color: #f64c72;
+    color: $color-pink;
   }
 }
 
 .main {
   width: 40%;
   margin: $header-height auto 0;
+}
+
+.filter-area {
+  position: fixed;
+  z-index: 99;
+  background: $color-blue;
+  width: 100%;
+  top: 24px;
+
+  button {
+    outline: none;
+    cursor: pointer;
+    border: none;
+    padding: 10px 15px;
+    color: white;
+    font-family: Gorditas-Regular;
+    background: rgb(249,93,79);
+    background: linear-gradient(90deg, rgba(249,93,79,1) 0%, rgba(246,88,97,1) 46%, rgba(246,76,114,1) 81%);
+    &:first-of-type {
+      border-radius: 10px 0 0 10px;
+    }
+
+    &:hover {
+      color: $color-blue-dark;
+    }
+
+    &.active {
+      background: rgba(246,76,114,1);
+      background: linear-gradient(45deg, rgba(249,93,79,1) 0%, rgba(246,88,97,1) 46%, rgba(246,76,114,1) 81%);
+      box-shadow: inset -9px 17px 17px -6px rgba(122,116,122,1);
+    }
+
+    &.reset {
+      background: $color-pink-light;
+      color: #333333;
+      border-radius: 0 10px 10px 0;
+    }
+  }
 }
 
 .tweet-wrapper {
@@ -56,10 +96,14 @@ header {
     color: white;
     font-size: 24px;
     font-family: Gorditas;
+
+    &.favorite {
+      background: $color-pink;
+    }
   }
   article {
-     padding: 10px;
-    min-height: 100px;
+    padding: 10px;
+    min-height: 56px;
   }
   p {padding: 5px 0}
 
@@ -70,5 +114,27 @@ header {
     font-size: 12px;
     color: $color-gray;
     font-family: Gorditas-Regular;
+  }
+
+  .add-like {
+    position: absolute;
+    left: 10px;
+    bottom: 10px;
+    border: none;
+    background: transparent;
+    outline: none;
+    cursor: pointer;
+    color: $color-pink-dirty-dark;
+    &:hover {
+      color: $color-blue;
+    }
+
+    &:before {
+      margin: 0 5px 0 0;
+    }
+
+    &.favorite {
+      color: $color-pink;
+    }
   }
 }
