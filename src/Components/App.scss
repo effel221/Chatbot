@@ -1,7 +1,7 @@
 @import '../sass/reset.scss';
 @import '../sass/colors.scss';
 
-$header-height: 100px;
+$header-height: 80px;
 
 body, html {
   font-family: Arial, Helvetica, sans-serif;
@@ -50,7 +50,7 @@ header {
   position: fixed;
   z-index: 99;
   background: $color-blue;
-  width: 100%;
+  width: inherit;
   top: 24px;
 
   button {
@@ -82,6 +82,11 @@ header {
       border-radius: 0 10px 10px 0;
     }
   }
+  .total-fav {
+    float: right;
+    color: white;
+    font-family: Gorditas;
+  }
 }
 
 .tweet-wrapper {
@@ -97,7 +102,7 @@ header {
     font-size: 24px;
     font-family: Gorditas;
 
-    &.favorite {
+    &.liked {
       background: $color-pink;
     }
   }
@@ -133,8 +138,27 @@ header {
       margin: 0 5px 0 0;
     }
 
-    &.favorite {
+    &.liked {
       color: $color-pink;
     }
+  }
+}
+
+@media only screen and (max-width: 1300px) {
+  .main {
+    width: 60%;
+    margin-top: 133px;
+  }
+  header {
+    height: 133px;
+  }
+  .filter-area {
+    top: 76px;
+  }
+}
+
+@media only screen and (max-width: 780px) {
+  .main {
+    width: 90%;
   }
 }
