@@ -27,25 +27,38 @@ const tweets = merge(
 );
 
 const App = () => {
+    const [loadingState, setloadingState] = useState(false);
     const [tweetsArr, setTweetsArr] = useState([]);
+    const [tweetsSubData, setTweetsSubData] = useState(null);
     let arr: TweetSettings[] = [];
     const currentTime = Date.now();
 
     useEffect(() => {
+        setloadingState(true);
         const tweetsSub = tweets.subscribe(tweetItem => {
             arr.push({...tweetItem, liked: false});
+            arr.sort((a, b) => {
+                return b.timestamp - a.timestamp;
+            });
             setTweetsArr([...arr]);
+            setloadingState(false);
         });
+        setTweetsSubData(tweetsSub);
         return () => tweetsSub.unsubscribe();
     }, []);
 
     const clearAllTweets = () => {
+        tweetsSubData.unsubscribe();
         setTweetsArr([]);
     };
 
-    const showHideLikedStatus = (index: number) => {
-       tweetsArr[index].liked = false;
-        setTweetsArr(tweetsArr);
+    const showHideLikedStatus = (timestamp: string, account: string) => {
+       const currentitemIndex = tweetsArr.findIndex((elem) => {
+           return elem.account === account && elem.timestamp === timestamp
+       })
+       const isItemLiked = tweetsArr[currentitemIndex].liked;
+        tweetsArr[currentitemIndex].liked = !isItemLiked;
+       setTweetsArr([...tweetsArr]);
     };
 
     return (
@@ -66,21 +79,21 @@ const App = () => {
                     </button>
                     <span className="total-fav">Liked tweets: 0</span>
                 </div>
-                {tweetsArr.length > 0 && tweetsArr.map((item, index) => {
-                    const headerClass = item.liked ? "tweet-wrapper liked" : "tweet-wrapper";
+                {!loadingState && tweetsArr && tweetsArr.map((item, index) => {
+                    const headerClass = item.liked ? "liked" : "";
                     const addLikeButtonClass = item.liked ? "add-like fas fa-heart liked" : "add-like far fa-heart";
-                    return <div className={headerClass} key={item.timestamp}>
-                        <h4>{item.account}</h4>
+                    return <div className="tweet-wrapper" key={item.timestamp}>
+                        <h4 className={headerClass}>{item.account}</h4>
                         <article>
                             <div className='date'>{moment(item.timestamp).format('DD MM YYYY hh:mm:ss')}</div>
                             <p>{item.content}</p>
-                            <button className="add-like far fa-heart" onClick={() => showHideLikedStatus(index)}>
+                            <button className={addLikeButtonClass} onClick={() => showHideLikedStatus(item.timestamp, item.account)}>
                                 Like
                             </button>
                         </article>
                     </div>
                 })}
-                {tweetsArr.length === 0 && <Loader/>}
+                {loadingState && <Loader/>}
             </section>
         </>
     );
