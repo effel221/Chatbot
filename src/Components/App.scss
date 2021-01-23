@@ -1,3 +1,74 @@
-body {
-  background: blue;
+@import '../sass/reset.scss';
+@import '../sass/colors.scss';
+
+$header-height: 100px;
+
+body, html {
+  font-family: Arial, Helvetica, sans-serif;
+  background: $color-blue;
+  box-sizing: border-box;
+  color: #333333;
+  font-size: 16px;
+}
+
+@font-face {
+  font-family: Gorditas;
+  src: url('../fonts/Gorditas-Bold.ttf');
+}
+
+@font-face {
+  font-family: Gorditas-Regular;
+  src: url('../fonts/Gorditas-Regular.ttf');
+}
+
+header {
+  height: $header-height;
+  background: $color-blue;
+  position: fixed;
+  display: flex;
+  left: 0;
+  top: 0;
+
+  .logo {
+    display: inline-block;
+    font-family: Gorditas;
+    font-size: 54px;
+    margin: 10px 0 0 20px;
+    text-decoration: none;
+    color: #f64c72;
+  }
+}
+
+.main {
+  width: 40%;
+  margin: $header-height auto 0;
+}
+
+.tweet-wrapper {
+  width: 100%;
+  background: white;
+  margin-bottom: 20px;
+  position: relative;
+
+  h4 {
+    padding: 10px;
+    background: $color-pink-dirty;
+    color: white;
+    font-size: 24px;
+    font-family: Gorditas;
+  }
+  article {
+     padding: 10px;
+    min-height: 100px;
+  }
+  p {padding: 5px 0}
+
+  .date {
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+    font-size: 12px;
+    color: $color-gray;
+    font-family: Gorditas-Regular;
+  }
 }

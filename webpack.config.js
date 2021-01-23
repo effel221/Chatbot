@@ -6,8 +6,10 @@ module.exports = {
   entry: 'index.tsx',
   output: {
     path: path.resolve(__dirname, 'build'),
-    filename: 'bundle.js',
+    filename: '[name].js',
+    sourceMapFilename: '[bundle].[hash:8].map'
   },
+  devtool: 'eval-source-map',
   resolve: {
     modules: [path.join(__dirname, 'src'), 'node_modules'],
     alias: {
@@ -16,7 +18,6 @@ module.exports = {
     extensions: ['.ts', '.tsx', '.js']
   },
   module: {
-
     rules: [
       {
         test: /\.(js|jsx|tsx)$/,
@@ -44,6 +45,10 @@ module.exports = {
         exclude: /node_modules/,
         loader: 'eslint-loader'
       },
+      {
+        test: /\.(woff|woff2|ttf|eot)$/,
+        use: 'file-loader?name=fonts/[name].[ext]!static'
+      }
     ],
   },
   plugins: [
