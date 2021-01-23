@@ -29,27 +29,25 @@ const tweets = merge(
 const App = () => {
     const [loadingState, setloadingState] = useState(false);
     const [tweetsArr, setTweetsArr] = useState([]);
-    const [tweetsSubData, setTweetsSubData] = useState(null);
-    let arr: TweetSettings[] = [];
-    const currentTime = Date.now();
+    const [likedState, setLikedState] = useState(false);
+    const [likeditemsAmount, setLikeditemsAmount] = useState(0);
 
     useEffect(() => {
         setloadingState(true);
         const tweetsSub = tweets.subscribe(tweetItem => {
-            arr.push({...tweetItem, liked: false});
-            arr.sort((a, b) => {
-                return b.timestamp - a.timestamp;
+            setTweetsArr((tweetsArr:TweetSettings[])=>{
+                const newTweetsArr = [{...tweetItem, liked: false}, ...tweetsArr];
+                return newTweetsArr;
             });
-            setTweetsArr([...arr]);
             setloadingState(false);
         });
-        setTweetsSubData(tweetsSub);
         return () => tweetsSub.unsubscribe();
     }, []);
 
     const clearAllTweets = () => {
-        tweetsSubData.unsubscribe();
         setTweetsArr([]);
+        setLikeditemsAmount(0);
+        setLikedState(false);
     };
 
     const showHideLikedStatus = (timestamp: string, account: string) => {
@@ -57,8 +55,18 @@ const App = () => {
            return elem.account === account && elem.timestamp === timestamp
        })
        const isItemLiked = tweetsArr[currentitemIndex].liked;
-        tweetsArr[currentitemIndex].liked = !isItemLiked;
+       tweetsArr[currentitemIndex].liked = !isItemLiked;
+       const likedArr = tweetsArr.filter((item) => item.liked===true)
+       setLikeditemsAmount(likedArr.length);
        setTweetsArr([...tweetsArr]);
+    };
+
+    const showLikedTweets = () => {
+        setLikedState(true);
+    };
+
+    const showAllTweets = () => {
+        setLikedState(false);
     };
 
     return (
@@ -68,20 +76,21 @@ const App = () => {
             </header>
             <section className="main">
                 <div className="filter-area">
-                    <button onClick={clearAllTweets}>
+                    <button className={likedState ? "active" : "" } onClick={showLikedTweets}>
                         Liked Tweets
                     </button>
-                    <button onClick={clearAllTweets}>
+                    <button className={!likedState ? "active" : "" } onClick={showAllTweets}>
                         All Tweets
                     </button>
                     <button className="reset" onClick={clearAllTweets}>
                         Clear All Tweets
                     </button>
-                    <span className="total-fav">Liked tweets: 0</span>
+                    <span className="total-fav">Liked tweets: {likeditemsAmount}</span>
                 </div>
                 {!loadingState && tweetsArr && tweetsArr.map((item, index) => {
                     const headerClass = item.liked ? "liked" : "";
                     const addLikeButtonClass = item.liked ? "add-like fas fa-heart liked" : "add-like far fa-heart";
+                    if (likedState && !item.liked) return null;
                     return <div className="tweet-wrapper" key={item.timestamp}>
                         <h4 className={headerClass}>{item.account}</h4>
                         <article>
