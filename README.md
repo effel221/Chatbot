@@ -1,6 +1,6 @@
 # Tweets project
 
-An application used to show similar to Twitter based on user UI, built with React, TypeScript, React Testing library  and SCSS.
+An application used to show similar to Twitter based on user UI, built with React, TypeScript, React Testing library, RXJS  and SCSS.
 
 # Installation and Setup Instructions
 
