@@ -89,62 +89,7 @@ header {
   }
 }
 
-.tweet-wrapper {
-  width: 100%;
-  background: white;
-  margin-bottom: 20px;
-  position: relative;
-
-  h4 {
-    padding: 10px;
-    background: $color-pink-dirty;
-    color: white;
-    font-size: 24px;
-    font-family: Gorditas;
-
-    &.liked {
-      background: $color-pink;
-    }
-  }
-  article {
-    padding: 10px;
-    min-height: 56px;
-  }
-  p {padding: 5px 0}
-
-  .date {
-    position: absolute;
-    right: 10px;
-    bottom: 10px;
-    font-size: 12px;
-    color: $color-gray;
-    font-family: Gorditas-Regular;
-  }
-
-  .add-like {
-    position: absolute;
-    left: 10px;
-    bottom: 10px;
-    border: none;
-    background: transparent;
-    outline: none;
-    cursor: pointer;
-    color: $color-pink-dirty-dark;
-    &:hover {
-      color: $color-blue;
-    }
-
-    &:before {
-      margin: 0 5px 0 0;
-    }
-
-    &.liked {
-      color: $color-pink;
-    }
-  }
-}
-
-@media only screen and (max-width: 1300px) {
+@media only screen and (max-width: 1350px) {
   .main {
     width: 60%;
     margin-top: 133px;
@@ -157,8 +102,13 @@ header {
   }
 }
 
-@media only screen and (max-width: 780px) {
+@media only screen and (max-width: 800px) {
   .main {
     width: 90%;
+  }
+}
+@media only screen and (max-width: 550px) {
+  .total-fav {
+    margin-top: -80px;
   }
 }
