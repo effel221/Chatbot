@@ -23,9 +23,15 @@ const App = () => {
             setloadingState(false);
         });
         const tweetsDelSub = tweets.pipe(delay(30000)).subscribe(tweetItem => {
-
+            setTweetsArr((tweetsArr: TweetSettingsAdded[]) => {
+                return tweetsArr.filter((elem) => !(elem.account === tweetItem.account && elem.content === tweetItem.content));
+            });
         });
-        return () => tweetsSub.unsubscribe();
+
+        return () => {
+            tweetsSub.unsubscribe();
+            tweetsDelSub.unsubscribe();
+        };
     }, []);
 
     const clearAllTweets = () => {

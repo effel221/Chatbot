@@ -1,0 +1,39 @@
+
+change reset all to selectd all
+change behaivier of reset to opposite
+add total
+check if drag tooltip with node
+if same transaction connect them
+if similar prop, connect
+add subtask
+
+
+ touch .eslintrc
+
+npm i babel-eslint --save-dev
+  npm install --save-dev typescript ts-loader
+
+Mon Jan 25 2021 15:24:58 GMT+0530 (India Standard Time)
+Mon Jan 25 2021 20:55:05 GMT+0530 (India Standard Time) item
+Mon Jan 25 2021 15:25:09 GMT+0530 (India Standard Time) 
+
+
+const itemTime = new Date(el.createdAt).getTime();
+
+moment(item.createdAt).unix();
+
+2021-01-25T13:43:52.939Z
+2021-01-25T13:43:52.939Z
+
+('2021-01-25T13:43:52.939Z').toLocaleString()
+(1611662532529).toLocaleString()
+
+2020-10-14T08:31:56.215Z
+Wed Oct 14 
+Tue Oct 13 2020 18:00:00 GMT+0000
+2020-10-16 T13:55:34.548Z
+Mon Dec 07 2020 18:00:00 GMT+0000
+2020-12-07T10:43:04.298Z
+
+
+2021-01-26T12:02:12.529Z
