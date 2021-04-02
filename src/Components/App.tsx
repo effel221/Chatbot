@@ -1,80 +1,37 @@
 import React, {useEffect, useState} from 'react';
-import {delay} from "rxjs/operators";
 import {TweetSettingsAdded} from './Interfaces';
-import {tweets} from './rx-utils'
-import Loader from "./Loader";
-import TweetItems from "./TweetItems";
+import { useDispatch } from "react-redux"
+import {Grid, Container, Button, FormControl, TextField} from "@material-ui/core";
+import { AddComment } from '@material-ui/icons';
 
 import './App.scss'
 
 
 const App = () => {
-    const [loadingState, setloadingState] = useState(false);
-    const [tweetsArr, setTweetsArr] = useState([]);
-    const [likedState, setLikedState] = useState(false);
-    const [likedItemsAmount, setLikedItemsAmount] = useState(0);
-
-    useEffect(() => {
-        setloadingState(true);
-        const tweetsSub = tweets.subscribe(tweetItem => {
-            setTweetsArr((tweetsArr: TweetSettingsAdded[]) => {
-                return [{...tweetItem, liked: false}, ...tweetsArr];
-            });
-            setloadingState(false);
-        });
-        const tweetsDelSub = tweets.pipe(delay(30000)).subscribe(tweetItem => {
-            setTweetsArr((tweetsArr: TweetSettingsAdded[]) => {
-                return tweetsArr.filter((elem) => !(elem.account === tweetItem.account && elem.content === tweetItem.content));
-            });
-        });
-
-        return () => {
-            tweetsSub.unsubscribe();
-            tweetsDelSub.unsubscribe();
-        };
-    }, []);
-
-    const clearAllTweets = () => {
-        setTweetsArr([]);
-        setLikedItemsAmount(0);
-        setLikedState(false);
-    };
-
-    const showLikedTweets = () => {
-        setLikedState(true);
-    };
-
-    const showAllTweets = () => {
-        setLikedState(false);
-    };
-
     return (
-        <>
-            <header>
-                <a href="#" className="logo">My tweets</a>
-            </header>
-            <section className="main">
-                <div className="filter-area">
-                    <button className={likedState ? "active" : ""} onClick={showLikedTweets}>
-                        Liked Tweets
-                    </button>
-                    <button className={!likedState ? "active" : ""} onClick={showAllTweets}>
-                        All Tweets
-                    </button>
-                    <button className="reset" onClick={clearAllTweets}>
-                        Clear All Tweets
-                    </button>
-                    <span className="total-fav">Liked tweets: {likedItemsAmount}</span>
-                </div>
-                {tweetsArr && !loadingState && <TweetItems {...{
-                    tweetsArr,
-                    likedState,
-                    setTweetsArr,
-                    setLikedItemsAmount
-                }}/>}
-                {loadingState && <Loader/>}
-            </section>
-        </>
+        <Container fixed>
+            <Grid container xs={12}>
+                <Grid container item xs={12} className="chat-area">
+
+                </Grid>
+                <Grid container item xs={10}>
+                    <FormControl fullWidth>
+                    <TextField
+                        id="standard-multiline-flexible"
+                        label="Write Your message here..."
+                        multiline
+                        rowsMax={4}
+                        variant="filled"
+                        className="chat-input"
+                    />
+                        </FormControl>
+                </Grid>
+                <Grid container item xs={2}>
+                    <Button variant="contained" fullWidth color="primary" startIcon={<AddComment/>}>Send</Button>
+                </Grid>
+            </Grid>
+        </Container>
+
     );
 };
 

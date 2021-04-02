@@ -4,111 +4,17 @@
 $header-height: 80px;
 
 body, html {
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: Roboto, Arial, Helvetica, sans-serif;
   background: $color-blue;
   box-sizing: border-box;
   color: #333333;
   font-size: 16px;
 }
 
-@font-face {
-  font-family: Gorditas;
-  src: url('../fonts/Gorditas-Bold.ttf');
+.chat-area {
+  height: 93vh;
+  background: $color-gray;
 }
-
-@font-face {
-  font-family: Gorditas-Regular;
-  src: url('../fonts/Gorditas-Regular.ttf');
-}
-
-header {
-  height: $header-height;
-  background: $color-blue;
-  position: fixed;
-  display: flex;
-  left: 0;
-  top: 0;
-  right: 0;
-  z-index: 9;
-
-  .logo {
-    display: inline-block;
-    font-family: Gorditas;
-    font-size: 54px;
-    margin: 10px 0 0 20px;
-    text-decoration: none;
-    color: $color-pink;
-  }
-}
-
-.main {
-  width: 40%;
-  margin: $header-height auto 0;
-}
-
-.filter-area {
-  position: fixed;
-  z-index: 99;
-  background: $color-blue;
-  width: inherit;
-  top: 24px;
-
-  button {
-    outline: none;
-    cursor: pointer;
-    border: none;
-    padding: 10px 15px;
-    color: white;
-    font-family: Gorditas-Regular;
-    background: rgb(249,93,79);
-    background: linear-gradient(90deg, rgba(249,93,79,1) 0%, rgba(246,88,97,1) 46%, rgba(246,76,114,1) 81%);
-    &:first-of-type {
-      border-radius: 10px 0 0 10px;
-    }
-
-    &:hover {
-      color: $color-blue-dark;
-    }
-
-    &.active {
-      background: rgba(246,76,114,1);
-      background: linear-gradient(45deg, rgba(249,93,79,1) 0%, rgba(246,88,97,1) 46%, rgba(246,76,114,1) 81%);
-      box-shadow: inset -9px 17px 17px -6px rgba(122,116,122,1);
-    }
-
-    &.reset {
-      background: $color-pink-light;
-      color: #333333;
-      border-radius: 0 10px 10px 0;
-    }
-  }
-  .total-fav {
-    float: right;
-    color: white;
-    font-family: Gorditas;
-  }
-}
-
-@media only screen and (max-width: 1350px) {
-  .main {
-    width: 60%;
-    margin-top: 133px;
-  }
-  header {
-    height: 133px;
-  }
-  .filter-area {
-    top: 76px;
-  }
-}
-
-@media only screen and (max-width: 800px) {
-  .main {
-    width: 90%;
-  }
-}
-@media only screen and (max-width: 550px) {
-  .total-fav {
-    margin-top: -80px;
-  }
+.chat-input {
+  background: #ffffff;
 }

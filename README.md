@@ -1,6 +1,6 @@
-# Tweets project
+#  Chatbot UI project
 
-An application used to show similar to Twitter based on user UI, built with React, TypeScript, React Testing library, RXJS  and SCSS.
+Web-based Chatbot UI that connects to Cognigy and can be used to have a conversation with a Cognigy Bot using a predefined set of tools which we also use at Cognigy.
 
 # Installation and Setup Instructions
 
