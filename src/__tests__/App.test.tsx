@@ -1,7 +1,7 @@
 import React from "react";
 import App  from "../Components/App";
 import Loader  from "../Components/Loader";
-import TweetItems  from "../Components/TweetItems";
+
 
 import { render, fireEvent } from '@testing-library/react'
 import '@testing-library/jest-dom/extend-expect'
@@ -19,7 +19,7 @@ describe("<Loader />", () => {
   })
 });
 
-describe("<TweetItems />", () => {
+/*describe("<TweetItems />", () => {
   const tweetsArrBase = {
     account: 'AwardsDarwin',
     timestamp: 8753958028903,
@@ -53,4 +53,4 @@ describe("<TweetItems />", () => {
     const likedElemCount = TweetItemsCompLiked.container.getElementsByClassName('liked').length;
     expect(likedElemCount).toBe(2);
   });
-});
+});*/
