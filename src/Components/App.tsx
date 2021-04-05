@@ -1,4 +1,4 @@
-import React, {useEffect, useState, useCallback, FocusEvent} from 'react';
+import React, {useEffect, useState, useCallback, FocusEvent, KeyboardEvent} from 'react';
 
 import {SocketClient} from "@cognigy/socket-client";
 import {useSelector, useDispatch} from 'react-redux'
@@ -52,14 +52,21 @@ const App = () => {
     }, []);
 
     const onMSGSubmit = (msg: MessageData) => {
-        if (!client) return;
+        if (!client && msg.text === '') return;
         client.sendMessage(msg.text, msg.data);
         dispatch(sendMessage(msg));
     };
 
-    const handleChange = useCallback((e?: FocusEvent<HTMLInputElement>) => {
+    const handleBlur = useCallback((e?: FocusEvent<HTMLInputElement>) => {
         setInputVal(e.target.value);
     }, []);
+
+    const handleClick = useCallback((e?: KeyboardEvent<HTMLInputElement>) => {
+        if (e.key === "Enter") {
+            const target = e.target as HTMLInputElement;
+            onMSGSubmit({text: target.value});
+        }
+    }, [client]);
 
     return (
         <Container fixed>
@@ -99,7 +106,8 @@ const App = () => {
                             variant="filled"
                             disabled={loading || error}
                             className="chat-input"
-                            onBlur={handleChange}
+                            onBlur={handleBlur}
+                            onKeyUp={handleClick}
                         />
                     </FormControl>
                 </Grid>
