@@ -5,16 +5,18 @@ import {useSelector, useDispatch} from 'react-redux'
 import {Grid, Container, Button, FormControl, TextField} from "@material-ui/core";
 import { AddComment } from '@material-ui/icons';
 import ErrorIcon from '@material-ui/icons/Error';
+import {MessageData, WsChatAction, WsChatState, } from '../Components/Interfaces';
 
 import './App.scss'
 import Loader from "./Loader";
-import {getMessage, sendMessage} from "../redux/actions";
+import {getMessage, sendMessage, setError} from "../redux/actions";
 
 
 const App = () => {
     const [loading, setLoading] = useState(false);
     const [loadWsError, setLoadWsError] = useState(false);
-    const currentUser = useSelector(state => state);
+    const [client, setClient] = useState(null);
+    const error = useSelector((state: WsChatState) => state?.error);
     const dispatch = useDispatch();
 
 
@@ -36,12 +38,9 @@ const App = () => {
             // establish a socket connection (returns a promise)
             await client.connect();
 
-            // send a message with text, text and data, data only
-            client.sendMessage("hello there");
-            client.sendMessage("hello there", { color: "green" });
-            client.sendMessage("", { color: "green" });
+            setClient(client);
         } catch(e) {
-            setLoadWsError(true);
+            dispatch(setError(true));
         }
     };
 
@@ -51,12 +50,18 @@ const App = () => {
         openConnection().then(() => setLoading(false));
     },[]);
 
+    const onMSGSubmit = (msg:MessageData) => {
+        if (!client) return;
+        client.sendMessage(msg.text, msg.data);
+        dispatch(sendMessage(msg));
+    }
+
     return (
         <Container fixed>
             <Grid container>
                 <Grid container item xs={12} className="chat-area">
                     {loading && <Loader/>}
-                    {loadWsError && <span className="chat-init-error"><ErrorIcon></ErrorIcon> Something went wrong</span>}
+                    {error && <span className="chat-init-error"><ErrorIcon></ErrorIcon> Something went wrong</span>}
                 </Grid>
                 <Grid container item xs={10}>
                     <FormControl fullWidth>
@@ -66,12 +71,19 @@ const App = () => {
                         multiline
                         rowsMax={4}
                         variant="filled"
+                        disabled={loading || error}
                         className="chat-input"
                     />
-                        </FormControl>
+                    </FormControl>
                 </Grid>
                 <Grid container item xs={2}>
-                    <Button variant="contained" fullWidth color="primary" startIcon={<AddComment/>}>Send</Button>
+                    <Button
+                        variant="contained"
+                        fullWidth
+                        color="primary"
+                        disabled={loading || error}
+                        onClick = {() => onMSGSubmit({text: 'text'}) }
+                        startIcon={<AddComment/>}>Send</Button>
                 </Grid>
             </Grid>
         </Container>

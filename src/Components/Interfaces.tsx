@@ -1,6 +1,6 @@
 export interface MessageData {
     text: string;
-    data: any;
+    data?: any;
     isBot?: boolean;
 }
 

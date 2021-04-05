@@ -1,13 +1,14 @@
 // actions
+import {MessageData, WsChatAction, WsChatState} from '../Components/Interfaces';
 
-export function sendMessage(message:string){
+export function sendMessage(message:MessageData){
     return {
         type: 'SEND_MESSAGE',
         message
     }
 };
 
-export function getMessage(message:string){
+export function getMessage(message:MessageData){
     return {
         type: 'GET_MESSAGE',
         message
