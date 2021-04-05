@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {TweetSettingsAdded} from './Interfaces';
+
 import { SocketClient }  from "@cognigy/socket-client";
 import {useSelector, useDispatch} from 'react-redux'
 import {Grid, Container, Button, FormControl, TextField} from "@material-ui/core";
@@ -8,13 +8,14 @@ import ErrorIcon from '@material-ui/icons/Error';
 
 import './App.scss'
 import Loader from "./Loader";
+import {getMessage, sendMessage} from "../redux/actions";
 
 
 const App = () => {
     const [loading, setLoading] = useState(false);
     const [loadWsError, setLoadWsError] = useState(false);
     const currentUser = useSelector(state => state);
-    const dispatch = useDispatch()
+    const dispatch = useDispatch();
 
 
     const openConnection = async () => {
@@ -26,7 +27,9 @@ const App = () => {
                     forceWebsockets: true,
                 });
             // register a handler for messages
+
             client.on("output", (output) => {
+                dispatch(getMessage(output));
                 console.log("Text: " + output.text + "   Data: " + output.data);
             });
 

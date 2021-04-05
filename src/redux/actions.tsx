@@ -1,3 +1,4 @@
+// actions
 
 export function sendMessage(message:string){
     return {
@@ -6,4 +7,16 @@ export function sendMessage(message:string){
     }
 };
 
+export function getMessage(message:string){
+    return {
+        type: 'GET_MESSAGE',
+        message
+    }
+};
 
+export function setError(hasError:boolean){
+    return {
+        type: 'WS_FAILED',
+        hasError
+    }
+};

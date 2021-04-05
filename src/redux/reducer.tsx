@@ -1,40 +1,24 @@
-interface LoginData {
-    email: string;
-    password: string;
+// reducer
+
+import {WsChatAction, WsChatState} from '../Components/Interfaces';
+
+
+const initialState: WsChatState = {
+    messagesArr: [],
+    error: false
 }
 
-export interface UserData {
-    id: string;
-    email: string;
-    profilePicture: string;
-}
-
-export type LoginAction =
-    | { type: 'LOGIN_REQUEST'; input: LoginData }
-    | { type: 'LOGIN_SUCCESS'; user: UserData }
-    | { type: 'LOGIN_FAILED'; error: string };
-
-interface LoginState {
-    user: UserData;
-    isLoading: boolean;
-    error: string;
-}
-
-
-const initialState: LoginState = {
-    user: null,
-    error: null,
-    isLoading: false
-}
-
-export const rootReducer = (state = initialState, action: LoginAction): LoginState => {
+export const rootReducer = (state = initialState, action: WsChatAction): WsChatState => {
+    const messageItems = [];
     switch (action.type) {
-        case 'LOGIN_REQUEST':
-            return {...state, isLoading: true}
-        case 'LOGIN_SUCCESS':
-            return {...state, isLoading: false, user: action.user}
-        case 'LOGIN_FAILED':
-            return {...state, isLoading: false, error: action.error}
+        case 'SEND_MESSAGE':
+            messageItems.push({text: action.message.text, data: action.message.data });
+            return {...state, messagesArr: messageItems}
+        case 'GET_MESSAGE':
+            messageItems.push({text: action.message.text, data: action.message.data, isBot: true });
+            return {...state, messagesArr: messageItems}
+        case 'WS_FAILED':
+            return {...state, error: true}
         default:
             return state;
     }
