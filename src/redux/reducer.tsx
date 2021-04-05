@@ -1,6 +1,6 @@
 // reducer
 
-import {WsChatAction, WsChatState} from '../Components/Interfaces';
+import {WsChatAction, WsChatState, MessageData} from '../Components/Interfaces';
 
 
 const initialState: WsChatState = {
@@ -9,14 +9,13 @@ const initialState: WsChatState = {
 }
 
 export const rootReducer = (state = initialState, action: WsChatAction): WsChatState => {
-    const messageItems = [];
     switch (action.type) {
         case 'SEND_MESSAGE':
-            messageItems.push({text: action.message.text, data: action.message.data });
-            return {...state, messagesArr: messageItems}
+            const messageItemsSend = {text: action.message.text, data: action.message.data };
+            return {...state, messagesArr: [...state.messagesArr, messageItemsSend]};
         case 'GET_MESSAGE':
-            messageItems.push({text: action.message.text, data: action.message.data, isBot: true });
-            return {...state, messagesArr: messageItems}
+            const messageItemsGet = {text: action.message.text, data: action.message.data, isBot: true };
+            return {...state, messagesArr: [...state.messagesArr, messageItemsGet]}
         case 'WS_FAILED':
             return {...state, error: true}
         default:

@@ -1,11 +1,11 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useCallback, FocusEvent} from 'react';
 
-import { SocketClient }  from "@cognigy/socket-client";
+import {SocketClient} from "@cognigy/socket-client";
 import {useSelector, useDispatch} from 'react-redux'
-import {Grid, Container, Button, FormControl, TextField} from "@material-ui/core";
-import { AddComment } from '@material-ui/icons';
+import {Grid, Container, Button, FormControl, TextField, Card} from "@material-ui/core";
+import {AddComment} from '@material-ui/icons';
 import ErrorIcon from '@material-ui/icons/Error';
-import {MessageData, WsChatAction, WsChatState, } from '../Components/Interfaces';
+import {MessageData, WsChatState,} from '../Components/Interfaces';
 
 import './App.scss'
 import Loader from "./Loader";
@@ -14,9 +14,10 @@ import {getMessage, sendMessage, setError} from "../redux/actions";
 
 const App = () => {
     const [loading, setLoading] = useState(false);
-    const [loadWsError, setLoadWsError] = useState(false);
     const [client, setClient] = useState(null);
+    const [inputVal, setInputVal] = useState('');
     const error = useSelector((state: WsChatState) => state?.error);
+    const messagesArr = useSelector((state: WsChatState) => state?.messagesArr);
     const dispatch = useDispatch();
 
 
@@ -28,8 +29,8 @@ const App = () => {
                 {
                     forceWebsockets: true,
                 });
-            // register a handler for messages
 
+            // register a handler for messages
             client.on("output", (output) => {
                 dispatch(getMessage(output));
                 console.log("Text: " + output.text + "   Data: " + output.data);
@@ -39,7 +40,7 @@ const App = () => {
             await client.connect();
 
             setClient(client);
-        } catch(e) {
+        } catch (e) {
             dispatch(setError(true));
         }
     };
@@ -48,13 +49,17 @@ const App = () => {
     useEffect(() => {
         setLoading(true);
         openConnection().then(() => setLoading(false));
-    },[]);
+    }, []);
 
-    const onMSGSubmit = (msg:MessageData) => {
+    const onMSGSubmit = (msg: MessageData) => {
         if (!client) return;
         client.sendMessage(msg.text, msg.data);
         dispatch(sendMessage(msg));
-    }
+    };
+
+    const handleChange = useCallback((e?: FocusEvent<HTMLInputElement>) => {
+        setInputVal(e.target.value);
+    }, []);
 
     return (
         <Container fixed>
@@ -62,18 +67,40 @@ const App = () => {
                 <Grid container item xs={12} className="chat-area">
                     {loading && <Loader/>}
                     {error && <span className="chat-init-error"><ErrorIcon></ErrorIcon> Something went wrong</span>}
+                    {messagesArr.length > 0 && messagesArr.map(({text, isBot}, index) => {
+                      if (isBot) {
+                          return <>
+                          <Grid key={text + index} item xs={4}>
+                              <Card>
+                                  {text}
+                              </Card>
+                          </Grid>
+                          <Grid  item xs={8}/>
+                          </>
+                      } else {
+                          return  <>
+                              <Grid  item xs={8}/>
+                              <Grid key={text + index} item xs={4}>
+                                  <Card>
+                                      {text}
+                                  </Card>
+                              </Grid>
+                          </>
+                        }
+                    })}
                 </Grid>
                 <Grid container item xs={10}>
                     <FormControl fullWidth>
-                    <TextField
-                        id="standard-multiline-flexible"
-                        label="Write Your message here..."
-                        multiline
-                        rowsMax={4}
-                        variant="filled"
-                        disabled={loading || error}
-                        className="chat-input"
-                    />
+                        <TextField
+                            id="standard-multiline-flexible"
+                            label="Write Your message here..."
+                            multiline
+                            rowsMax={4}
+                            variant="filled"
+                            disabled={loading || error}
+                            className="chat-input"
+                            onBlur={handleChange}
+                        />
                     </FormControl>
                 </Grid>
                 <Grid container item xs={2}>
@@ -82,7 +109,7 @@ const App = () => {
                         fullWidth
                         color="primary"
                         disabled={loading || error}
-                        onClick = {() => onMSGSubmit({text: 'text'}) }
+                        onClick={() => onMSGSubmit({text: inputVal})}
                         startIcon={<AddComment/>}>Send</Button>
                 </Grid>
             </Grid>
