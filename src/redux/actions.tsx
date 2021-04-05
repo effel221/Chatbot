@@ -1,5 +1,5 @@
 // actions
-import {MessageData, WsChatAction, WsChatState} from '../Components/Interfaces';
+import {MessageData} from '../Components/Interfaces';
 
 export function sendMessage(message:MessageData){
     return {

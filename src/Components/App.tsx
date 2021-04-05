@@ -20,7 +20,6 @@ const App = () => {
     const messagesArr = useSelector((state: WsChatState) => state?.messagesArr);
     const dispatch = useDispatch();
 
-
     const openConnection = async () => {
         try {
             const client = new SocketClient(
@@ -33,7 +32,6 @@ const App = () => {
             // register a handler for messages
             client.on("output", (output) => {
                 dispatch(getMessage(output));
-                console.log("Text: " + output.text + "   Data: " + output.data);
             });
 
             // establish a socket connection (returns a promise)
@@ -52,7 +50,7 @@ const App = () => {
     }, []);
 
     const onMSGSubmit = (msg: MessageData) => {
-        if (!client && msg.text === '') return;
+        if (!client || msg.text === '') return;
         client.sendMessage(msg.text, msg.data);
         dispatch(sendMessage(msg));
     };
@@ -74,27 +72,18 @@ const App = () => {
                 <Grid container item xs={12} className="chat-area">
                     {loading && <Loader/>}
                     {error && <span className="chat-init-error"><ErrorIcon></ErrorIcon> Something went wrong</span>}
-                    {messagesArr.length > 0 && messagesArr.map(({text, isBot}, index) => {
-                      if (isBot) {
-                          return <>
-                          <Grid key={text + index} item xs={4}>
-                              <Card>
-                                  {text}
-                              </Card>
-                          </Grid>
-                          <Grid  item xs={8}/>
-                          </>
-                      } else {
-                          return  <>
-                              <Grid  item xs={8}/>
-                              <Grid key={text + index} item xs={4}>
-                                  <Card>
-                                      {text}
-                                  </Card>
-                              </Grid>
-                          </>
-                        }
-                    })}
+                    {messagesArr.length > 0 &&
+                    <div className="chat-content">
+                        {messagesArr.map(({text, isBot}, index) => {
+                            const wrapperClassName = isBot ? 'chat-wrap-card chat-bot' : 'chat-wrap-card';
+                            return <div key={text + index} className={wrapperClassName}>
+                                <Card>
+                                    {text}
+                                </Card>
+                            </div>
+                        })}
+                    </div>
+                    }
                 </Grid>
                 <Grid container item xs={10}>
                     <FormControl fullWidth>
@@ -122,7 +111,6 @@ const App = () => {
                 </Grid>
             </Grid>
         </Container>
-
     );
 };
 

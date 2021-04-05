@@ -10,7 +10,31 @@ body, html {
   color: #333333;
   font-size: 16px;
 }
+.chat-content {
+  height: 100%;
+  width: 100%;
+  padding: 10px;
+}
+.chat-wrap-card {
+  width: 100%;
+  text-align: right;
+  margin: 0 0 15px;
 
+  .MuiPaper-root {
+    display: inline-block;
+    padding: 10px 25px;
+    background: $color-blue-dark;
+    color: #ffffff;
+  }
+
+  &.chat-bot {
+    text-align: left;
+
+    .MuiPaper-root {
+      background: $color-pink-dirty-dark;
+    }
+  }
+}
 .chat-area {
   height: 93vh;
   background: $color-gray;
@@ -18,7 +42,6 @@ body, html {
 .chat-input {
   background: #ffffff;
 }
-
 .chat-init-error {
   display: flex;
   align-items: center;

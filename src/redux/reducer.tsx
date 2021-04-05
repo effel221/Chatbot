@@ -1,6 +1,6 @@
 // reducer
 
-import {WsChatAction, WsChatState, MessageData} from '../Components/Interfaces';
+import {WsChatAction, WsChatState} from '../Components/Interfaces';
 
 
 const initialState: WsChatState = {
