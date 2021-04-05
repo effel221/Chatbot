@@ -18,3 +18,10 @@ body, html {
 .chat-input {
   background: #ffffff;
 }
+
+.chat-init-error {
+  display: flex;
+  align-items: center;
+  margin: 0 auto;
+  color: $color-pink;
+}

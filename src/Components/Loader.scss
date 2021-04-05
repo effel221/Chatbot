@@ -4,13 +4,13 @@
   position: relative;
   width: 80px;
   height: 80px;
-  margin: 40% auto 0;
+  margin: 40vh auto 0;
 }
 .lds-default div {
   position: absolute;
   width: 6px;
   height: 6px;
-  background: $color-pink;
+  background: $color-pink-dirty;
   border-radius: 50%;
   animation: lds-default 1.2s linear infinite;
 }
