@@ -1,7 +1,6 @@
 @import '../sass/reset.scss';
 @import '../sass/colors.scss';
 
-$header-height: 80px;
 
 body, html {
   font-family: Roboto, Arial, Helvetica, sans-serif;
@@ -36,6 +35,7 @@ body, html {
   }
 }
 .chat-area {
+  overflow-y: auto;
   height: 93vh;
   background: $color-gray;
 }

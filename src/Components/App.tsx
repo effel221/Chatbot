@@ -90,7 +90,6 @@ const App = () => {
                         <TextField
                             id="standard-multiline-flexible"
                             label="Write Your message here..."
-                            multiline
                             rowsMax={4}
                             variant="filled"
                             disabled={loading || error}
