@@ -1,15 +1,14 @@
 import React, {useEffect, useState, useCallback, FocusEvent, KeyboardEvent} from 'react';
-
 import {SocketClient} from "@cognigy/socket-client";
+import {MessageData, WsChatState,} from '../Components/Interfaces';
 import {useSelector, useDispatch} from 'react-redux'
+import {getMessage, sendMessage, setError} from "../redux/actions";
+import Loader from "./Loader";
 import {Grid, Container, Button, FormControl, TextField, Card} from "@material-ui/core";
 import {AddComment} from '@material-ui/icons';
 import ErrorIcon from '@material-ui/icons/Error';
-import {MessageData, WsChatState,} from '../Components/Interfaces';
 
 import './App.scss'
-import Loader from "./Loader";
-import {getMessage, sendMessage, setError} from "../redux/actions";
 
 
 const App = () => {
